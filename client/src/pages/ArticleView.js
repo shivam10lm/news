@@ -88,13 +88,9 @@ const ArticleView = () => {
           {article.source.name}
         </Typography>
 
-        <Typography variant="body1" paragraph>
-          {article.description}
-        </Typography>
+        <Typography variant="body1">{article.description}</Typography>
 
-        <Typography variant="body1" paragraph>
-          {article.content}
-        </Typography>
+        <Typography variant="body1">{article.content}</Typography>
 
         <Button
           variant="contained"

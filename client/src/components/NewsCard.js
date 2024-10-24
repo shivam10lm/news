@@ -31,10 +31,17 @@ const NewsCard = ({ article, isFavorites, onFavorite }) => {
   };
 
   return (
-    <Card sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <CardMedia
         component="img"
-        height="140"
+        height={140}
+        width={60}
         image={article.urlToImage || "https://via.placeholder.com/300x200"}
         alt={article.title}
         onError={(e) => {
