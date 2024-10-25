@@ -1,6 +1,5 @@
 const createConnection = require("../config/db");
 
-// Model function to create the favorites table
 const createFavoritesTable = async () => {
   const query = `
     CREATE TABLE IF NOT EXISTS favorites (

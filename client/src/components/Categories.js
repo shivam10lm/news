@@ -33,19 +33,8 @@ const Categories = ({ onSelectCategory }) => {
         <Button
           key={category}
           onClick={() => handleCategoryClick(category)}
-          variant="contained"
-          sx={{
-            textTransform: "none",
-            backgroundColor: (theme) =>
-              selectedCategory === category
-                ? theme.palette.primary.main
-                : theme.palette.grey[200],
-            color: selectedCategory === category ? "white" : "text.primary",
-            "&:hover": {
-              backgroundColor: (theme) => theme.palette.primary.main,
-              color: "white",
-            },
-          }}
+          variant={selectedCategory === category ? "contained" : "outlined"}
+          sx={{ textTransform: "none" }}
         >
           {category}
         </Button>

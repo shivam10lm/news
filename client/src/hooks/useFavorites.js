@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import api from "../utils/api";
 
 export const useFavorites = () => {
@@ -7,8 +6,6 @@ export const useFavorites = () => {
 
   const fetchFavorites = async () => {
     try {
-      //   const response = await axios.get("http://localhost:5001/api/favorites");
-      //   setFavorites(response.data);
       const response = await api.get("/favorites");
       setFavorites(response.data);
     } catch (err) {

@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState, useEffect, useCallback } from "react";
 import api from "../utils/api";
+
 export const useNews = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -9,21 +9,16 @@ export const useNews = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchNews = async () => {
+  // Wrap fetchNews in useCallback
+  const fetchNews = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      //   const endpoint = `http://localhost:5001/api/news/search?q=${
-      //     searchQuery || "general"
-      //   }&page=${page}&pageSize=20`; // Request more articles than needed
-
-      //   const response = await axios.get(endpoint);
       const endpoint = `/news/search?q=${
         searchQuery || "general"
       }&page=${page}&pageSize=20`;
       const response = await api.get(endpoint);
 
-      // Filter articles
       const filteredArticles = response.data.articles.filter(
         (article) =>
           article.title &&
@@ -35,21 +30,19 @@ export const useNews = () => {
           article.content.length > 0
       );
 
-      // Take only the first 12 articles
       const first12Articles = filteredArticles.slice(0, 12);
-
       setArticles(first12Articles);
-      setTotalPages(Math.min(Math.ceil(response.data.totalResults / 12), 5));
+      setTotalPages(5);
     } catch (err) {
       console.error("Error details:", err);
       setError("Failed to fetch news articles. Please try again later.");
     }
     setLoading(false);
-  };
+  }, [page, searchQuery]);
 
   useEffect(() => {
     fetchNews();
-  }, [page, searchQuery]);
+  }, [fetchNews]);
 
   const handleSearch = (query) => {
     setSearchQuery(query);

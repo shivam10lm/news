@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import {
   Container,
   CircularProgress,
@@ -28,12 +27,9 @@ const Home = () => {
         const favoriteArticle = favorites.find(
           (fav) => fav.title === article.title
         );
-        // await axios.delete(
-        //   `http://localhost:5001/api/favorites/${favoriteArticle.id}`
-        // );
+
         await api.delete(`/favorites/${favoriteArticle.id}`);
       } else {
-        // await axios.post("http://localhost:5001/api/favorites", article);
         await api.post("/favorites", article);
       }
       // Refresh favorites list

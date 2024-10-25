@@ -10,7 +10,6 @@ const { createFavoritesTable } = require("./models/favoriteModel");
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-// Middleware
 app.use(
   cors({
     origin: "http://localhost:3000",
@@ -18,14 +17,11 @@ app.use(
 );
 app.use(express.json());
 
-// Routes
 app.use("/api/news", newsRoutes);
 app.use("/api/favorites", favoriteRoutes);
 
-// Error handling
 app.use(errorHandler);
 
-// Initialize server and database
 const startServer = async () => {
   try {
     await createFavoritesTable();

@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { Container, Typography } from "@mui/material";
 import { FavoritesList } from "../components";
 import { useFavorites } from "../hooks/useFavorites";
@@ -9,7 +8,6 @@ const Favorites = () => {
 
   const handleRemove = async (article) => {
     try {
-      // await axios.delete(`http://localhost:5001/api/favorites/${article.id}`);
       await api.delete(`/favorites/${article.id}`);
       fetchFavorites(); // Refresh the favorites list after removing
     } catch (err) {
