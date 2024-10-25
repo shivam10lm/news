@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material";
-import { Navigation } from "./components";
+import { Navbar } from "./components";
 import { Home, Favorites, ArticleView } from "./pages";
 
 const theme = createTheme({
@@ -20,7 +20,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Router>
         <div className="app">
-          <Navigation />
+          <Navbar />
           <div className="content">
             <Routes>
               <Route path="/" element={<Home />} />
