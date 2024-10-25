@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-
+import api from "../utils/api";
 export const useNews = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -13,12 +13,15 @@ export const useNews = () => {
     setLoading(true);
     setError(null);
     try {
-      const endpoint = `http://localhost:5001/api/news/search?q=${
-        searchQuery || "general"
-      }&page=${page}&pageSize=20`; // Request more articles than needed
-      console.log("Fetching from:", endpoint);
+      //   const endpoint = `http://localhost:5001/api/news/search?q=${
+      //     searchQuery || "general"
+      //   }&page=${page}&pageSize=20`; // Request more articles than needed
 
-      const response = await axios.get(endpoint);
+      //   const response = await axios.get(endpoint);
+      const endpoint = `/news/search?q=${
+        searchQuery || "general"
+      }&page=${page}&pageSize=20`;
+      const response = await api.get(endpoint);
 
       // Filter articles
       const filteredArticles = response.data.articles.filter(

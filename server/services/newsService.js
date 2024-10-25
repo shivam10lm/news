@@ -15,7 +15,6 @@ const searchNews = async (
   language = "en"
 ) => {
   try {
-    console.log("Making API call with:", { query, page, pageSize, language }); // Add this log
     const response = await newsApiClient.get("/everything", {
       params: {
         q: query,
@@ -24,7 +23,6 @@ const searchNews = async (
         pageSize,
       },
     });
-    console.log("API Response:", response.data); // Add this log
     return response.data;
   } catch (error) {
     console.error("News API Error:", error.response?.data || error.message);

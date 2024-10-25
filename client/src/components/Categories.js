@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
 
 const Categories = ({ onSelectCategory }) => {
-  const [selectedCategory, setSelectedCategory] = useState("General"); // Default selected category
+  const [selectedCategory, setSelectedCategory] = useState();
 
   const categories = [
     "General",

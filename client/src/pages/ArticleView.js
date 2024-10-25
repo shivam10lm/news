@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Container,
   Paper,
@@ -52,9 +52,6 @@ const ArticleView = () => {
               objectFit: "cover",
               borderRadius: 1,
               mb: 3,
-            }}
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/800x400";
             }}
           />
         )}

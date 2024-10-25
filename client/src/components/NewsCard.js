@@ -31,11 +31,8 @@ const NewsCard = ({ article, favorites, onFavorite }) => {
       <CardMedia
         component="img"
         height={140}
-        image={article.urlToImage || "https://via.placeholder.com/300x200"}
+        image={article.urlToImage}
         alt={article.title}
-        onError={(e) => {
-          e.target.src = "https://via.placeholder.com/300x200";
-        }}
       />
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h6" component="div">

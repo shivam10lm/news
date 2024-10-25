@@ -10,7 +10,7 @@ import {
 import { NewsList, SearchBar, Categories } from "../components";
 import { useNews } from "../hooks/useNews";
 import { useFavorites } from "../hooks/useFavorites";
-
+import api from "../utils/api";
 const Home = () => {
   const { articles, loading, error, page, totalPages, setPage, handleSearch } =
     useNews();
@@ -28,11 +28,13 @@ const Home = () => {
         const favoriteArticle = favorites.find(
           (fav) => fav.title === article.title
         );
-        await axios.delete(
-          `http://localhost:5001/api/favorites/${favoriteArticle.id}`
-        );
+        // await axios.delete(
+        //   `http://localhost:5001/api/favorites/${favoriteArticle.id}`
+        // );
+        await api.delete(`/favorites/${favoriteArticle.id}`);
       } else {
-        await axios.post("http://localhost:5001/api/favorites", article);
+        // await axios.post("http://localhost:5001/api/favorites", article);
+        await api.post("/favorites", article);
       }
       // Refresh favorites list
       fetchFavorites();

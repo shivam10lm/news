@@ -1,30 +1,35 @@
 const favoriteService = require("../services/favoriteService");
 
+const getFavorites = async (req, res, next) => {
+  try {
+    const favorites = await favoriteService.fetchFavorites();
+    res.status(200).json(favorites);
+  } catch (error) {
+    console.error("Error fetching favorites:", error);
+    next(error);
+  }
+};
+
 const addFavorite = async (req, res, next) => {
   try {
-    // First check if article already exists
-    const existingFavorite = await favoriteService.checkExistingFavorite(
-      req.body.title
-    );
-
-    if (existingFavorite) {
-      return res.status(409).json({
-        message: "Article already in favorites",
-      });
-    }
-
-    // If not exists, add it
     const result = await favoriteService.saveFavorite(req.body);
-    if (result && result.insertId) {
-      res.status(201).json({
-        message: "Added to favorites",
-        id: result.insertId,
-      });
-    } else {
-      throw new Error("Failed to add favorite");
-    }
+    res.status(201).json({
+      message: "Added to favorites",
+      id: result.insertId,
+    });
   } catch (error) {
     console.error("Error adding favorite:", error);
+    next(error);
+  }
+};
+
+const removeFavorite = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await favoriteService.deleteFavorite(id);
+    res.status(204).send();
+  } catch (error) {
+    console.error("Error removing favorite:", error);
     next(error);
   }
 };

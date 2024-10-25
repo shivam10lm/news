@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
+import Navigation from "./Navigation";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ const Navbar = () => {
           </Button>
         </Toolbar>
       </Container>
+      <Navigation />
     </AppBar>
   );
 };

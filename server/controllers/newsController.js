@@ -9,12 +9,9 @@ const searchNews = async (req, res, next) => {
       language = "en",
     } = req.query;
 
-    console.log("Controller received query:", { q, page, pageSize, language }); // Add this log
-
     const data = await newsService.searchNews(q, page, pageSize, language);
     res.json(data);
   } catch (error) {
-    console.error("Controller error:", error); // Add this log
     next(error);
   }
 };
