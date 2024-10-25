@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import {
   Container,
@@ -7,59 +7,44 @@ import {
   Pagination,
   Box,
 } from "@mui/material";
-import SearchBar from "../components/SearchBar";
-import NewsList from "../components/NewsList";
+import { NewsList, SearchBar, Categories } from "../components";
+import { useNews } from "../hooks/useNews";
+import { useFavorites } from "../hooks/useFavorites";
 
 const Home = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const fetchNews = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const endpoint = searchQuery
-        ? `http://localhost:5001/api/news/search?q=${searchQuery}&page=${page}`
-        : `http://localhost:5001/api/news/categories?category=general&page=${page}`;
-
-      const response = await axios.get(endpoint);
-      setArticles(response.data.articles);
-      setTotalPages(Math.ceil(response.data.totalResults / 10));
-      localStorage.setItem(
-        "currentArticles",
-        JSON.stringify(response.data.articles)
-      );
-    } catch (err) {
-      setError("Failed to fetch news articles. Please try again later.");
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchNews();
-  }, [page, searchQuery]);
-
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-    setPage(1);
-  };
+  const { articles, loading, error, page, totalPages, setPage, handleSearch } =
+    useNews();
+  const { favorites, fetchFavorites } = useFavorites();
 
   const handleFavorite = async (article) => {
     try {
-      await axios.post("http://localhost:5001/api/favorites", article);
-      alert("Added to favorites!");
+      // Check if article is already in favorites
+      const isAlreadyFavorite = favorites.some(
+        (fav) => fav.title === article.title
+      );
+
+      if (isAlreadyFavorite) {
+        // Find the favorite article to get its ID
+        const favoriteArticle = favorites.find(
+          (fav) => fav.title === article.title
+        );
+        await axios.delete(
+          `http://localhost:5001/api/favorites/${favoriteArticle.id}`
+        );
+      } else {
+        await axios.post("http://localhost:5001/api/favorites", article);
+      }
+      // Refresh favorites list
+      fetchFavorites();
     } catch (err) {
-      alert("Failed to add to favorites.");
+      console.error("Failed to update favorites");
     }
   };
 
   return (
     <Container sx={{ py: 4 }}>
       <SearchBar onSearch={handleSearch} />
+      <Categories onSelectCategory={handleSearch} />
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }}>
@@ -73,8 +58,8 @@ const Home = () => {
         <>
           <NewsList
             articles={articles}
+            favorites={favorites} // Pass favorites to NewsList
             onFavorite={handleFavorite}
-            isFavorites={false}
           />
 
           {totalPages > 1 && (

@@ -1,20 +1,40 @@
 import React from "react";
-import { Grid2 } from "@mui/material";
+import { Box } from "@mui/material";
 import NewsCard from "./NewsCard";
 
-const NewsList = ({ articles, onFavorite, isFavorites }) => {
+const NewsList = ({ articles, favorites, onFavorite }) => {
   return (
-    <Grid2 container spacing={3}>
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "24px",
+        margin: "0 auto",
+      }}
+    >
       {articles.map((article, index) => (
-        <Grid2 item xs={12} sm={6} md={4} key={index}>
+        <Box
+          key={article.id || index}
+          sx={{
+            flexBasis: {
+              xs: "100%",
+              sm: "calc(50% - 24px)",
+              md: "calc(33.333% - 24px)",
+            },
+            flexGrow: 0,
+            flexShrink: 0,
+            minWidth: 0,
+          }}
+        >
           <NewsCard
             article={article}
-            isFavorites={isFavorites}
+            favorites={favorites}
             onFavorite={onFavorite}
           />
-        </Grid2>
+        </Box>
       ))}
-    </Grid2>
+    </Box>
   );
 };
+
 export default NewsList;

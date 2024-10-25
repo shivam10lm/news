@@ -1,8 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    // Reset to home page and trigger a new fetch with default query
+    navigate("/");
+    window.location.reload(); // This is a temporary fix - a better solution would be to lift state up
+  };
+
   return (
     <AppBar position="static">
       <Container>
@@ -12,10 +20,11 @@ const Navbar = () => {
             component={Link}
             to="/"
             sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}
+            onClick={handleHomeClick}
           >
             News App
           </Typography>
-          <Button color="inherit" component={Link} to="/">
+          <Button color="inherit" onClick={handleHomeClick}>
             Home
           </Button>
           <Button color="inherit" component={Link} to="/favorites">

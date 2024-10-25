@@ -1,37 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { Container, Typography, CircularProgress, Alert } from "@mui/material";
-import FavoritesList from "../components/FavoritesList";
+import { Container, Typography } from "@mui/material";
+import { NewsList } from "../components";
+import { useFavorites } from "../hooks/useFavorites";
 
 const Favorites = () => {
-  const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { favorites, fetchFavorites } = useFavorites();
 
-  const fetchFavorites = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get("http://localhost:5001/api/favorites");
-      setFavorites(response.data);
-    } catch (err) {
-      setError("Failed to fetch favorites. Please try again later.");
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchFavorites();
-  }, []);
-
-  const handleRemove = async (article) => {
+  const handleFavorite = async (article) => {
     try {
       await axios.delete(`http://localhost:5001/api/favorites/${article.id}`);
-      fetchFavorites();
+      fetchFavorites(); // Refresh the favorites list after removing
     } catch (err) {
-      alert("Failed to remove from favorites.");
+      console.error("Failed to remove from favorites");
     }
   };
+
+  if (favorites.length === 0) {
+    return (
+      <Container sx={{ py: 4 }}>
+        <Typography variant="h4" sx={{ mb: 4 }}>
+          Favorite Articles
+        </Typography>
+        <Typography variant="h6" sx={{ textAlign: "center", mt: 4 }}>
+          No favorite articles yet.
+        </Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container sx={{ py: 4 }}>
@@ -39,17 +35,11 @@ const Favorites = () => {
         Favorite Articles
       </Typography>
 
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
-
-      {loading ? (
-        <CircularProgress sx={{ display: "block", margin: "40px auto" }} />
-      ) : (
-        <FavoritesList favorites={favorites} onRemove={handleRemove} />
-      )}
+      <NewsList
+        articles={favorites}
+        favorites={favorites} // Pass the same array as both articles and favorites
+        onFavorite={handleFavorite}
+      />
     </Container>
   );
 };

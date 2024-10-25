@@ -12,22 +12,12 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
-const NewsCard = ({ article, isFavorites, onFavorite }) => {
+const NewsCard = ({ article, favorites, onFavorite }) => {
   const navigate = useNavigate();
+  const isFavorited = favorites?.some((fav) => fav.title === article.title);
 
   const handleViewDetails = () => {
-    // Store the article in localStorage for ArticleView
-    const articles = JSON.parse(
-      localStorage.getItem("currentArticles") || "[]"
-    );
-    const articleIndex = articles.findIndex((a) => a.title === article.title);
-    if (articleIndex === -1) {
-      articles.push(article);
-      localStorage.setItem("currentArticles", JSON.stringify(articles));
-    }
-    navigate(
-      `/article/${articleIndex !== -1 ? articleIndex : articles.length - 1}`
-    );
+    navigate(`/article/${article.id}`, { state: { article } });
   };
 
   return (
@@ -41,7 +31,6 @@ const NewsCard = ({ article, isFavorites, onFavorite }) => {
       <CardMedia
         component="img"
         height={140}
-        width={60}
         image={article.urlToImage || "https://via.placeholder.com/300x200"}
         alt={article.title}
         onError={(e) => {
@@ -62,12 +51,12 @@ const NewsCard = ({ article, isFavorites, onFavorite }) => {
         </Button>
         <IconButton
           onClick={() => onFavorite(article)}
-          color="primary"
+          color={isFavorited ? "secondary" : "default"}
           aria-label={
-            isFavorites ? "Remove from favorites" : "Add to favorites"
+            isFavorited ? "Remove from favorites" : "Add to favorites"
           }
         >
-          {isFavorites ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+          {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         </IconButton>
       </CardActions>
     </Card>

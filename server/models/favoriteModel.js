@@ -28,7 +28,7 @@ const createFavoritesTable = async () => {
   }
 };
 
-// Model functions for CRUD operations
+// Get all favorites
 const getFavorites = async () => {
   const connection = await createConnection();
   try {
@@ -44,26 +44,36 @@ const getFavorites = async () => {
   }
 };
 
+// Add a favorite
 const addFavorite = async (articleData) => {
   const connection = await createConnection();
   try {
-    const { title, description, url, urlToImage, publishedAt, source } =
-      articleData;
+    const {
+      title,
+      description,
+      url,
+      urlToImage,
+      publishedAt,
+      sourceId,
+      sourceName,
+    } = articleData;
 
-    // Check if the favorite already exists
+    // First check if the article already exists
     const [existing] = await connection.query(
-      "SELECT * FROM favorites WHERE url = ?",
-      [url]
+      "SELECT * FROM favorites WHERE title = ?",
+      [title]
     );
 
     if (existing.length > 0) {
-      alert("Favorite already exists");
-      return;
+      return { error: "Article already exists in favorites" };
     }
 
+    // If not exists, insert it
     const [result] = await connection.query(
-      "INSERT INTO favorites (title, description, url, urlToImage, publishedAt, sourceId, sourceName) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [title, description, url, urlToImage, publishedAt, source.id, source.name]
+      `INSERT INTO favorites 
+       (title, description, url, urlToImage, publishedAt, sourceId, sourceName) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [title, description, url, urlToImage, publishedAt, sourceId, sourceName]
     );
 
     return result;
@@ -75,6 +85,7 @@ const addFavorite = async (articleData) => {
   }
 };
 
+// Remove a favorite
 const removeFavorite = async (id) => {
   const connection = await createConnection();
   try {

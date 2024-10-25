@@ -4,20 +4,38 @@ const {
   removeFavorite,
 } = require("../models/favoriteModel");
 
-const fetchFavorites = async () => {
-  return await getFavorites();
+const checkExistingFavorite = async (title) => {
+  const favorites = await getFavorites();
+  return favorites.some((fav) => fav.title === title);
 };
 
 const saveFavorite = async (articleData) => {
-  return await addFavorite(articleData);
-};
+  // Make sure all required fields are present
+  const {
+    title,
+    description = "",
+    url = "",
+    urlToImage = "",
+    publishedAt = "",
+    source = {},
+  } = articleData;
 
-const deleteFavorite = async (id) => {
-  return await removeFavorite(id);
+  const favoriteData = {
+    title,
+    description,
+    url,
+    urlToImage,
+    publishedAt,
+    sourceId: source.id || "",
+    sourceName: source.name || "",
+  };
+
+  return await addFavorite(favoriteData);
 };
 
 module.exports = {
-  fetchFavorites,
+  getFavorites,
   saveFavorite,
-  deleteFavorite,
+  checkExistingFavorite,
+  removeFavorite,
 };

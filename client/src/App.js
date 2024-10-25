@@ -1,24 +1,36 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import Favorites from "./pages/Favorites";
-import ArticleView from "./pages/ArticleView";
+import { ThemeProvider, createTheme } from "@mui/material";
+import { Navbar } from "./components";
+import { Home, Favorites, ArticleView } from "./pages";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1976d2",
+    },
+    secondary: {
+      main: "#dc004e",
+    },
+  },
+});
 
 const App = () => {
   return (
-    <Router>
-      <div className="app">
-        <Navbar />
-        <div className="content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/favorites" element={<Favorites />} />
-            <Route path="/article/:id" element={<ArticleView />} />
-          </Routes>
+    <ThemeProvider theme={theme}>
+      <Router>
+        <div className="app">
+          <Navbar />
+          <div className="content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/favorites" element={<Favorites />} />
+              <Route path="/article/:id" element={<ArticleView />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </ThemeProvider>
   );
 };
 

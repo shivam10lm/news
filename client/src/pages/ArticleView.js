@@ -1,44 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import React from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import {
   Container,
   Paper,
   Typography,
   Button,
   Box,
-  CircularProgress,
+  Alert,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ArticleView = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
-  const [article, setArticle] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const articles = JSON.parse(
-      localStorage.getItem("currentArticles") || "[]"
-    );
-    const foundArticle = articles[parseInt(id)];
-    if (foundArticle) {
-      setArticle(foundArticle);
-    }
-    setLoading(false);
-  }, [id]);
-
-  if (loading) {
-    return (
-      <Container sx={{ py: 4, textAlign: "center" }}>
-        <CircularProgress />
-      </Container>
-    );
-  }
+  const location = useLocation();
+  const article = location.state?.article;
 
   if (!article) {
     return (
       <Container sx={{ py: 4 }}>
-        <Typography variant="h5">Article not found</Typography>
+        <Alert severity="error">Article not found</Alert>
         <Button
           startIcon={<ArrowBackIcon />}
           onClick={() => navigate(-1)}
@@ -88,9 +68,13 @@ const ArticleView = () => {
           {article.source.name}
         </Typography>
 
-        <Typography variant="body1">{article.description}</Typography>
+        <Typography variant="body1" paragraph>
+          {article.description}
+        </Typography>
 
-        <Typography variant="body1">{article.content}</Typography>
+        <Typography variant="body1" paragraph>
+          {article.content}
+        </Typography>
 
         <Button
           variant="contained"

@@ -2,25 +2,23 @@ const newsService = require("../services/newsService");
 
 const searchNews = async (req, res, next) => {
   try {
-    const { q = "technology", page = 1, language = "en" } = req.query;
-    const data = await newsService.searchNews(q, page, language);
-    res.json(data);
-  } catch (error) {
-    next(error);
-  }
-};
+    const {
+      q = "technology",
+      page = 1,
+      pageSize = 12,
+      language = "en",
+    } = req.query;
 
-const getNewsByCategory = async (req, res, next) => {
-  try {
-    const { category = "general", page = 1, country = "us" } = req.query;
-    const data = await newsService.getNewsByCategory(category, page, country);
+    console.log("Controller received query:", { q, page, pageSize, language }); // Add this log
+
+    const data = await newsService.searchNews(q, page, pageSize, language);
     res.json(data);
   } catch (error) {
+    console.error("Controller error:", error); // Add this log
     next(error);
   }
 };
 
 module.exports = {
   searchNews,
-  getNewsByCategory,
 };

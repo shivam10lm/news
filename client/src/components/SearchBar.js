@@ -1,5 +1,4 @@
-// components/SearchBar.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Paper,
   InputBase,
@@ -8,7 +7,8 @@ import {
   ListItem,
   ListItemText,
   Divider,
-  IconButton as MUIIconButton,
+  ClickAwayListener,
+  Box,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
@@ -17,29 +17,40 @@ const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState("");
   const [searchHistory, setSearchHistory] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
-  const MAX_HISTORY_LENGTH = 10; // Maximum number of search history items
+  const inputRef = useRef(null);
+  const MAX_HISTORY_LENGTH = 5;
 
   useEffect(() => {
-    const history = JSON.parse(localStorage.getItem("searchHistory")) || [];
+    const history = JSON.parse(localStorage.getItem("searchHistory") || "[]");
     setSearchHistory(history);
   }, []);
+
+  const updateSearchHistory = (newQuery) => {
+    const updatedHistory = [newQuery, ...searchHistory]
+      .filter((item, index, self) => self.indexOf(item) === index)
+      .slice(0, MAX_HISTORY_LENGTH);
+
+    setSearchHistory(updatedHistory);
+    localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (query.trim()) {
-      // Update history and maintain unique entries
-      const updatedHistory = [query, ...searchHistory]
-        .filter((item, index, self) => self.indexOf(item) === index) // Remove duplicates
-        .slice(0, MAX_HISTORY_LENGTH); // Limit to MAX_HISTORY_LENGTH
-      setSearchHistory(updatedHistory);
-      localStorage.setItem("searchHistory", JSON.stringify(updatedHistory));
-      onSearch(query);
-      setQuery(""); // Clear input field
-      setShowDropdown(false); // Close dropdown after search
+      onSearch(query.trim());
+      updateSearchHistory(query.trim());
+      setShowDropdown(false);
     }
   };
 
-  const handleDelete = (itemToDelete) => {
+  const handleHistoryClick = (item) => {
+    setQuery(item);
+    onSearch(item);
+    setShowDropdown(false);
+  };
+
+  const handleDelete = (e, itemToDelete) => {
+    e.stopPropagation();
     const updatedHistory = searchHistory.filter(
       (item) => item !== itemToDelete
     );
@@ -48,94 +59,74 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-        maxWidth: 600,
-        margin: "20px auto",
-      }}
-    >
-      <Paper
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          p: "2px 4px",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <InputBase
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Search news..."
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setShowDropdown(e.target.value.length > 0); // Show dropdown only when typing
-          }}
-          onFocus={() => setShowDropdown(true)} // Show dropdown on focus
-          onBlur={() => {
-            // Hide dropdown when the input loses focus
-            setTimeout(() => setShowDropdown(false), 200); // Delay to allow click on dropdown
-          }}
-        />
-        <IconButton type="submit" sx={{ p: "10px" }}>
-          <SearchIcon />
-        </IconButton>
-      </Paper>
-
-      {/* Dropdown for Search History */}
-      {showDropdown && (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 1,
-            width: "100%", // Match width with search bar
-            maxHeight: "200px",
-            overflowY: "auto",
-            backgroundColor: "white",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.2)",
-            borderRadius: "4px",
-            marginTop: "4px", // Optional: add slight space above dropdown
+    <ClickAwayListener onClickAway={() => setShowDropdown(false)}>
+      <Box sx={{ position: "relative", maxWidth: 600, margin: "20px auto" }}>
+        <Paper
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{
+            p: "2px 4px",
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            boxShadow: 2,
           }}
         >
-          <List>
-            {searchHistory.length === 0 ? (
-              <ListItem>
-                <ListItemText primary="No search history available." />
-              </ListItem>
-            ) : (
-              searchHistory.map((item, index) => (
-                <div key={index}>
+          <InputBase
+            ref={inputRef}
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Search news..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onFocus={() => setShowDropdown(true)}
+          />
+          <IconButton type="submit" sx={{ p: "10px" }}>
+            <SearchIcon />
+          </IconButton>
+        </Paper>
+
+        {showDropdown && searchHistory.length > 0 && (
+          <Paper
+            sx={{
+              position: "absolute",
+              top: "100%",
+              left: 0,
+              right: 0,
+              mt: 1,
+              maxHeight: 300,
+              overflow: "auto",
+              zIndex: 1,
+              boxShadow: 3,
+            }}
+          >
+            <List>
+              {searchHistory.map((item, index) => (
+                <React.Fragment key={index}>
                   <ListItem
                     button
-                    onClick={() => {
-                      setQuery(item);
-                      onSearch(item);
-                      setShowDropdown(false); // Close dropdown on selection
+                    onClick={() => handleHistoryClick(item)}
+                    sx={{
+                      "&:hover": {
+                        backgroundColor: "action.hover",
+                      },
                     }}
                   >
                     <ListItemText primary={item} />
-                    <MUIIconButton
-                      edge="end"
-                      aria-label="delete"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevent triggering the onClick of ListItem
-                        handleDelete(item);
-                      }}
+                    <IconButton
+                      size="small"
+                      onClick={(e) => handleDelete(e, item)}
                     >
-                      <CloseIcon />
-                    </MUIIconButton>
+                      <CloseIcon fontSize="small" />
+                    </IconButton>
                   </ListItem>
-                  <Divider />
-                </div>
-              ))
-            )}
-          </List>
-        </div>
-      )}
-    </div>
+                  {index < searchHistory.length - 1 && <Divider />}
+                </React.Fragment>
+              ))}
+            </List>
+          </Paper>
+        )}
+      </Box>
+    </ClickAwayListener>
   );
 };
 
