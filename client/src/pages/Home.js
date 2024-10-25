@@ -10,6 +10,7 @@ import { NewsList, SearchBar, Categories } from "../components";
 import { useNews } from "../hooks/useNews";
 import { useFavorites } from "../hooks/useFavorites";
 import api from "../utils/api";
+
 const Home = () => {
   const { articles, loading, error, page, totalPages, setPage, handleSearch } =
     useNews();

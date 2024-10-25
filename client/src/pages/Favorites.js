@@ -3,6 +3,7 @@ import { Container, Typography } from "@mui/material";
 import { FavoritesList } from "../components";
 import { useFavorites } from "../hooks/useFavorites";
 import api from "../utils/api";
+
 const Favorites = () => {
   const { favorites, fetchFavorites } = useFavorites();
 

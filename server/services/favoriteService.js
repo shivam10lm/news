@@ -17,7 +17,7 @@ const deleteFavorite = async (id) => {
 };
 
 module.exports = {
-  fetchFavorites, // Make sure these names match with what you're calling in controller
+  fetchFavorites,
   saveFavorite,
   deleteFavorite,
 };
