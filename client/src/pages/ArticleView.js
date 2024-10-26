@@ -57,26 +57,26 @@ const ArticleView = () => {
         )}
 
         <Typography variant="h4" gutterBottom>
-          {article.title}
+          {article?.title}
         </Typography>
 
         <Typography variant="subtitle1" color="text.secondary" gutterBottom>
           {new Date(article.publishedAt).toLocaleDateString()} |{" "}
-          {article.source.name}
+          {article?.source?.name}
         </Typography>
 
         <Typography variant="body1" paragraph>
-          {article.description}
+          {article?.description}
         </Typography>
 
         <Typography variant="body1" paragraph>
-          {article.content}
+          {article?.content}
         </Typography>
 
         <Button
           variant="contained"
           color="primary"
-          href={article.url}
+          href={article?.url}
           target="_blank"
           rel="noopener noreferrer"
           sx={{ mt: 2 }}

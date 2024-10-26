@@ -17,7 +17,7 @@ const NewsCard = ({ article, favorites, onFavorite }) => {
   const isFavorited = favorites?.some((fav) => fav.title === article.title);
 
   const handleViewDetails = () => {
-    navigate(`/article/${article.id}`, { state: { article } });
+    navigate(`/article/${article?.title}`, { state: { article } });
   };
 
   return (
