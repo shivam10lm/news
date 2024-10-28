@@ -23,6 +23,7 @@ const Navbar = () => {
             color: "white",
             textDecoration: "none",
             fontWeight: "600",
+            cursor: "pointer",
           }}
         >
           NEWS APP
@@ -33,6 +34,7 @@ const Navbar = () => {
           sx={{
             color: "white",
             fontWeight: "600",
+            cursor: "pointer",
           }}
         >
           Favorites
