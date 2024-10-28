@@ -9,10 +9,11 @@ export const useNews = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Wrap fetchNews in useCallback
   const fetchNews = useCallback(async () => {
+    if (loading) return; // Prevent duplicate calls
     setLoading(true);
     setError(null);
+
     try {
       const endpoint = `/news/search?q=${
         searchQuery || "general"
@@ -36,18 +37,19 @@ export const useNews = () => {
     } catch (err) {
       console.error("Error details:", err);
       setError("Failed to fetch news articles. Please try again later.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
-  }, [page, searchQuery]);
+  }, [page, searchQuery]); // Remove loading from dependencies
 
   useEffect(() => {
     fetchNews();
-  }, [fetchNews]);
+  }, [page, searchQuery]); // Depend directly on page and searchQuery instead of fetchNews
 
-  const handleSearch = (query) => {
+  const handleSearch = useCallback((query) => {
     setSearchQuery(query);
     setPage(1);
-  };
+  }, []); // Memoize handleSearch
 
   return {
     articles,

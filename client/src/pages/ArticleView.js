@@ -15,6 +15,11 @@ const ArticleView = () => {
   const location = useLocation();
   const article = location.state?.article;
 
+  //remove tags
+  const stripHtmlTags = (html) => {
+    return html.replace(/<[^>]*>/g, "");
+  };
+
   if (!article) {
     return (
       <Container sx={{ py: 4 }}>
@@ -65,12 +70,23 @@ const ArticleView = () => {
           {article?.source?.name}
         </Typography>
 
-        <Typography variant="body1" paragraph>
+        <Typography
+          variant="body1"
+          component="p"
+          gutterBottom
+          sx={{ marginBottom: "16px" }}
+        >
           {article?.description}
         </Typography>
 
-        <Typography variant="body1" paragraph>
-          {article?.content}
+        <Typography
+          variant="body1"
+          component="p"
+          gutterBottom
+          sx={{ marginBottom: "16px" }}
+        >
+          {stripHtmlTags(article?.content)?.slice(0, -13)}
+          {/* remove <li>*/}
         </Typography>
 
         <Button

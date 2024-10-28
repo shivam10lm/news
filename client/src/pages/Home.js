@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Container,
   CircularProgress,
@@ -16,33 +16,33 @@ const Home = () => {
     useNews();
   const { favorites, fetchFavorites } = useFavorites();
 
-  const handleFavorite = async (article) => {
-    try {
-      // Check if article is already in favorites
-      const isAlreadyFavorite = favorites.some(
-        (fav) => fav.title === article.title
-      );
-
-      if (isAlreadyFavorite) {
-        // Find the favorite article to get its ID
-        const favoriteArticle = favorites.find(
+  const handleFavorite = useCallback(
+    async (article) => {
+      try {
+        const isAlreadyFavorite = favorites.some(
           (fav) => fav.title === article.title
         );
 
-        await api.delete(`/favorites/${favoriteArticle.id}`);
-      } else {
-        await api.post("/favorites", article);
+        if (isAlreadyFavorite) {
+          const favoriteArticle = favorites.find(
+            (fav) => fav.title === article.title
+          );
+          await api.delete(`/favorites/${favoriteArticle.id}`);
+        } else {
+          await api.post("/favorites", article);
+        }
+        fetchFavorites();
+      } catch (err) {
+        console.error("Failed to update favorites");
       }
-      // Refresh favorites list
-      fetchFavorites();
-    } catch (err) {
-      console.error("Failed to update favorites");
-    }
-  };
+    },
+    [favorites, fetchFavorites]
+  );
 
   return (
     <Container sx={{ py: 4 }}>
       <SearchBar onSearch={handleSearch} />
+
       <Categories onSelectCategory={handleSearch} />
 
       {error && (
@@ -57,7 +57,7 @@ const Home = () => {
         <>
           <NewsList
             articles={articles}
-            favorites={favorites} // Pass favorites to NewsList
+            favorites={favorites}
             onFavorite={handleFavorite}
           />
 

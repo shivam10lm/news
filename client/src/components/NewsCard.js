@@ -38,7 +38,15 @@ const NewsCard = ({ article, favorites, onFavorite }) => {
         <Typography gutterBottom variant="h6" component="div">
           {article.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="caption" color="text.secondary" gutterBottom>
+          {new Date(article.publishedAt).toLocaleDateString()} |{" "}
+          {article?.source?.name}
+        </Typography>
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{ marginTop: "20px" }}
+        >
           {article.description?.slice(0, 150)}...
         </Typography>
       </CardContent>

@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { Box, Button } from "@mui/material";
-
+import { cat } from "../utils/constants";
 const Categories = ({ onSelectCategory }) => {
   const [selectedCategory, setSelectedCategory] = useState();
-
-  const categories = [
-    "General",
-    "Business",
-    "Technology",
-    "Sports",
-    "Entertainment",
-    "Health",
-  ];
+  const categories = cat;
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);

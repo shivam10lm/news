@@ -12,7 +12,6 @@ const createConnection = async () => {
       database: process.env.DB_NAME,
     });
 
-    console.log("Database connection established successfully.");
     return connection;
   } catch (error) {
     console.error("Error creating database connection:", error.message);
