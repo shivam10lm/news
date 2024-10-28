@@ -1,9 +1,10 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Typography, Paper } from "@mui/material";
+import SearchOffIcon from "@mui/icons-material/SearchOff";
 import NewsCard from "./NewsCard";
 
 const NewsList = ({ articles, favorites, onFavorite }) => {
-  return (
+  return articles?.length ? (
     <Box
       sx={{
         display: "flex",
@@ -33,6 +34,33 @@ const NewsList = ({ articles, favorites, onFavorite }) => {
           />
         </Box>
       ))}
+    </Box>
+  ) : (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        mt: 8,
+      }}
+    >
+      <Paper
+        sx={{
+          padding: "32px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          maxWidth: "400px",
+          width: "100%",
+        }}
+      >
+        <Typography variant="h6" color="text.secondary">
+          No Articles Found
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
+          Try different search terms or browse categories
+        </Typography>
+      </Paper>
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import {
   Container,
   CircularProgress,
@@ -7,42 +7,24 @@ import {
   Box,
 } from "@mui/material";
 import { NewsList, SearchBar, Categories } from "../components";
-import { useNews } from "../hooks/useNews";
-import { useFavorites } from "../hooks/useFavorites";
-import api from "../utils/api";
+import { useNewsContext } from "../contexts/NewsContext";
 
 const Home = () => {
-  const { articles, loading, error, page, totalPages, setPage, handleSearch } =
-    useNews();
-  const { favorites, fetchFavorites } = useFavorites();
-
-  const handleFavorite = useCallback(
-    async (article) => {
-      try {
-        const isAlreadyFavorite = favorites.some(
-          (fav) => fav.title === article.title
-        );
-
-        if (isAlreadyFavorite) {
-          const favoriteArticle = favorites.find(
-            (fav) => fav.title === article.title
-          );
-          await api.delete(`/favorites/${favoriteArticle.id}`);
-        } else {
-          await api.post("/favorites", article);
-        }
-        fetchFavorites();
-      } catch (err) {
-        console.error("Failed to update favorites");
-      }
-    },
-    [favorites, fetchFavorites]
-  );
+  const {
+    articles,
+    loading,
+    error,
+    page,
+    totalPages,
+    setPage,
+    handleSearch,
+    favorites,
+    handleFavorite,
+  } = useNewsContext();
 
   return (
     <Container sx={{ py: 4 }}>
       <SearchBar onSearch={handleSearch} />
-
       <Categories onSelectCategory={handleSearch} />
 
       {error && (

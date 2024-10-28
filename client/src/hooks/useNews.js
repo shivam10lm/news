@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../utils/api";
 
 export const useNews = () => {
@@ -9,15 +9,16 @@ export const useNews = () => {
   const [totalPages, setTotalPages] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const fetchNews = useCallback(async () => {
-    if (loading) return; // Prevent duplicate calls
+  const hasFetchedInitially = useRef(false);
+
+  const fetchNewsData = async (query = searchQuery, pageNum = page) => {
     setLoading(true);
     setError(null);
 
     try {
       const endpoint = `/news/search?q=${
-        searchQuery || "general"
-      }&page=${page}&pageSize=20`;
+        query || "general"
+      }&page=${pageNum}&pageSize=20`;
       const response = await api.get(endpoint);
 
       const filteredArticles = response.data.articles.filter(
@@ -40,16 +41,20 @@ export const useNews = () => {
     } finally {
       setLoading(false);
     }
-  }, [page, searchQuery]); // Remove loading from dependencies
+  };
 
   useEffect(() => {
-    fetchNews();
-  }, [page, searchQuery]); // Depend directly on page and searchQuery instead of fetchNews
+    if (hasFetchedInitially.current) {
+      fetchNewsData();
+    } else {
+      hasFetchedInitially.current = true;
+    }
+  }, [page, searchQuery]);
 
-  const handleSearch = useCallback((query) => {
+  const handleSearch = (query) => {
     setSearchQuery(query);
     setPage(1);
-  }, []); // Memoize handleSearch
+  };
 
   return {
     articles,

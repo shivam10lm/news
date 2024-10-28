@@ -1,26 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import api from "../utils/api";
 
 export const useFavorites = () => {
   const [favorites, setFavorites] = useState([]);
-  const [loading, setLoading] = useState(false); // Add loading state
+  const [loading, setLoading] = useState(false);
+  const initialFetch = useRef(true);
 
   const fetchFavorites = async () => {
-    if (loading) return; // Prevent multiple calls if already loading
     setLoading(true);
     try {
       const response = await api.get("/favorites");
       setFavorites(response.data);
     } catch (err) {
-      console.error("Failed to fetch favorites");
+      console.error("Failed to fetch favorites:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchFavorites();
-  }, []); // Empty dependency array ensures it only runs once on mount
+    if (initialFetch.current) {
+      initialFetch.current = false;
+      fetchFavorites();
+    }
+  }, []);
 
   return { favorites, fetchFavorites, loading };
 };

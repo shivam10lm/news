@@ -31,15 +31,15 @@ const NewsCard = ({ article, favorites, onFavorite }) => {
       <CardMedia
         component="img"
         height={140}
-        image={article.urlToImage}
-        alt={article.title}
+        image={article?.urlToImage}
+        alt={article?.title}
       />
       <CardContent sx={{ flexGrow: 1 }}>
         <Typography gutterBottom variant="h6" component="div">
-          {article.title}
+          {article?.title}
         </Typography>
         <Typography variant="caption" color="text.secondary" gutterBottom>
-          {new Date(article.publishedAt).toLocaleDateString()} |{" "}
+          {new Date(article?.publishedAt).toLocaleDateString()} |{" "}
           {article?.source?.name}
         </Typography>
         <Typography
@@ -47,7 +47,7 @@ const NewsCard = ({ article, favorites, onFavorite }) => {
           color="text.secondary"
           sx={{ marginTop: "20px" }}
         >
-          {article.description?.slice(0, 150)}...
+          {article?.description?.slice(0, 150)}...
         </Typography>
       </CardContent>
       <CardActions>

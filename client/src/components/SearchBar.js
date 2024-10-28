@@ -101,7 +101,7 @@ const SearchBar = ({ onSearch }) => {
           >
             <List>
               {searchHistory.map((item, index) => (
-                <React.Fragment key={index}>
+                <Box key={index}>
                   <ListItem
                     button
                     onClick={() => handleHistoryClick(item)}
@@ -120,7 +120,7 @@ const SearchBar = ({ onSearch }) => {
                     </IconButton>
                   </ListItem>
                   {index < searchHistory.length - 1 && <Divider />}
-                </React.Fragment>
+                </Box>
               ))}
             </List>
           </Paper>

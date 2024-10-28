@@ -1,20 +1,10 @@
 import React from "react";
 import { Container, Typography } from "@mui/material";
 import { FavoritesList } from "../components";
-import { useFavorites } from "../hooks/useFavorites";
-import api from "../utils/api";
+import { useNewsContext } from "../contexts/NewsContext";
 
 const Favorites = () => {
-  const { favorites, fetchFavorites } = useFavorites();
-
-  const handleRemove = async (article) => {
-    try {
-      await api.delete(`/favorites/${article.id}`);
-      fetchFavorites(); // Refresh the favorites list after removing
-    } catch (err) {
-      console.error("Failed to remove from favorites");
-    }
-  };
+  const { favorites, handleFavorite } = useNewsContext();
 
   return (
     <Container sx={{ py: 4 }}>
@@ -22,7 +12,7 @@ const Favorites = () => {
         Favorite Articles
       </Typography>
 
-      <FavoritesList favorites={favorites} onRemove={handleRemove} />
+      <FavoritesList favorites={favorites} onRemove={handleFavorite} />
     </Container>
   );
 };

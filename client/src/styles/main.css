@@ -22,7 +22,6 @@ body {
   padding: 20px 0;
 }
 
-/* Container responsiveness */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -30,18 +29,15 @@ body {
   padding: 0 20px;
 }
 
-/* Navigation styles */
 .MuiAppBar-root {
   background-color: #1976d2;
 }
 
-/* Search bar styles */
 .search-bar {
   margin: 20px auto;
   max-width: 600px;
 }
 
-/* News card styles */
 .news-card {
   height: 100%;
   display: flex;
@@ -64,7 +60,6 @@ body {
   flex-grow: 1;
 }
 
-/* Article view styles */
 .article-image {
   width: 100%;
   max-height: 400px;
@@ -80,7 +75,6 @@ body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Loading spinner styles */
 .loading-container {
   display: flex;
   justify-content: center;
@@ -88,14 +82,12 @@ body {
   min-height: 200px;
 }
 
-/* Pagination styles */
 .pagination-container {
   display: flex;
   justify-content: center;
   margin: 40px 0;
 }
 
-/* Responsive grid adjustments */
 @media (max-width: 960px) {
   .container {
     padding: 0 15px;
@@ -120,7 +112,6 @@ body {
   }
 }
 
-/* Error message styles */
 .error-message {
   background-color: #fdeded;
   color: #5f2120;
@@ -129,7 +120,6 @@ body {
   margin: 20px 0;
 }
 
-/* Success message styles */
 .success-message {
   background-color: #edf7ed;
   color: #1e4620;
@@ -138,13 +128,11 @@ body {
   margin: 20px 0;
 }
 
-/* Button styles */
 .action-button {
   text-transform: none;
   min-width: 100px;
 }
 
-/* Favorite icon styles */
 .favorite-icon {
   color: #dc004e;
 }
@@ -153,21 +141,18 @@ body {
   margin-left: auto;
 }
 
-/* Article metadata styles */
 .article-metadata {
   color: #666;
   font-size: 0.9rem;
   margin-bottom: 16px;
 }
 
-/* Empty state styles */
 .empty-state {
   text-align: center;
   padding: 40px 20px;
   color: #666;
 }
 
-/* Animation for card hover */
 @keyframes cardHover {
   from {
     transform: translateY(0);
@@ -179,7 +164,6 @@ body {
   }
 }
 
-/* Utility classes */
 .text-center {
   text-align: center;
 }
@@ -197,20 +181,17 @@ body {
   padding-bottom: 20px;
 }
 
-/* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
   .news-card {
     transition: none;
   }
 }
 
-/* Focus styles for better accessibility */
 :focus {
   outline: 2px solid #1976d2;
   outline-offset: 2px;
 }
 
-/* Print styles */
 @media print {
   .no-print {
     display: none;
