@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Typography, Paper } from "@mui/material";
-import SearchOffIcon from "@mui/icons-material/SearchOff";
 import NewsCard from "./NewsCard";
 
 const NewsList = ({ articles, favorites, onFavorite }) => {

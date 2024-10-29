@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpecs = require("./swagger");
 const newsRoutes = require("./routes/newsRoutes");
 const favoriteRoutes = require("./routes/favoriteRoutes");
 const errorHandler = require("./middlewares/errorHandler");
@@ -16,6 +18,7 @@ app.use(
   })
 );
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use("/api/news", newsRoutes);
 app.use("/api/favorites", favoriteRoutes);
