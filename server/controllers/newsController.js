@@ -3,7 +3,7 @@ const newsService = require("../services/newsService");
 const searchNews = async (req, res, next) => {
   try {
     const {
-      q = "technology",
+      q = "general",
       page = 1,
       pageSize = 12,
       language = "en",

@@ -4,12 +4,11 @@ const newsApiClient = axios.create({
   baseURL: "https://newsapi.org/v2",
   params: {
     apiKey: process.env.NEWS_API_KEY,
-    pageSize: 12,
   },
 });
 
 const searchNews = async (
-  query = "technology",
+  query = "general",
   page = 1,
   pageSize = 12,
   language = "en"

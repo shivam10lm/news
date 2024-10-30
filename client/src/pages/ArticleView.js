@@ -80,7 +80,7 @@ const ArticleView = () => {
             gutterBottom
             sx={{ marginBottom: "16px" }}
           >
-            {stripHtmlTags(article.content)?.slice(0, -13)}
+            {stripHtmlTags(article.content)?.slice(0, -14)}
           </Typography>
         )}
 
