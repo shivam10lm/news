@@ -174,15 +174,6 @@ DB_NAME=your_db_name
    npm start
    ```
 
-## 🔒 Security Features
-
-- CORS protection
-- Environment variable protection
-- SQL injection prevention
-- Error handling middleware
-- API rate limiting
-- Secure database connections
-
 ## 💡 Key Design Decisions
 
 1. **MVC Architecture**: Clear separation of concerns between Model, View, and Controller
