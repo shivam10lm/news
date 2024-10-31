@@ -1,19 +1,14 @@
-import React from "react";
-import {
-  Container,
-  CircularProgress,
-  Alert,
-  Pagination,
-  Box,
-} from "@mui/material";
+import React, { useEffect } from "react";
+import { Container, CircularProgress, Pagination, Box } from "@mui/material";
 import { NewsList, SearchBar, Categories } from "../components";
 import { useNewsContext } from "../contexts/NewsContext";
+import { useParams } from "react-router-dom";
 
 const Home = () => {
+  const { searchTerm } = useParams();
   const {
     articles,
     loading,
-    error,
     page,
     totalPages,
     setPage,
@@ -22,16 +17,16 @@ const Home = () => {
     handleFavorite,
   } = useNewsContext();
 
+  useEffect(() => {
+    if (searchTerm) {
+      handleSearch(searchTerm);
+    }
+  }, [searchTerm, handleSearch]);
+
   return (
     <Container sx={{ py: 4 }}>
       <SearchBar onSearch={handleSearch} />
       <Categories onSelectCategory={handleSearch} />
-
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
 
       {loading ? (
         <CircularProgress sx={{ display: "block", margin: "40px auto" }} />

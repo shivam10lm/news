@@ -1,8 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Typography, Toolbar } from "@mui/material";
+import { useNewsContext } from "../contexts/NewsContext";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { handleSearch } = useNewsContext();
+
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    handleSearch("");
+    navigate("/");
+  };
+
   return (
     <Box
       sx={{
@@ -17,8 +27,7 @@ const Navbar = () => {
       >
         <Typography
           variant="h6"
-          component={Link}
-          to="/"
+          onClick={handleLogoClick}
           sx={{
             color: "white",
             textDecoration: "none",

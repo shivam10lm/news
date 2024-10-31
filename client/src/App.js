@@ -22,6 +22,7 @@ const App = () => {
             <div className="content">
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/search/:searchTerm" element={<Home />} />{" "}
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/article/:id" element={<ArticleView />} />
               </Routes>
