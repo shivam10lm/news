@@ -1,10 +1,10 @@
 import React from "react";
 import { Container, Typography } from "@mui/material";
 import { FavoritesList } from "../components";
-import { useNewsContext } from "../contexts/NewsContext";
+import { useFavorites } from "../hooks/useFavorites";
 
 const Favorites = () => {
-  const { favorites, handleFavorite } = useNewsContext();
+  const { favorites, handleFavorite } = useFavorites();
 
   return (
     <Container sx={{ py: 4 }}>

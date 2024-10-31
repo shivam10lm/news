@@ -1,11 +1,11 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Box, Button, Typography, Toolbar } from "@mui/material";
-import { useNewsContext } from "../contexts/NewsContext";
+import { useNews } from "../hooks/useNews";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { handleSearch } = useNewsContext();
+  const { handleSearch } = useNews();
 
   const handleLogoClick = (e) => {
     e.preventDefault();
