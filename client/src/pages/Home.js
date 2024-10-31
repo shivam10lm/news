@@ -1,23 +1,14 @@
 import React, { useEffect } from "react";
 import { Container, CircularProgress, Pagination, Box } from "@mui/material";
 import { NewsList, SearchBar, Categories } from "../components";
-import { useParams } from "react-router-dom";
 import { useNews } from "../hooks/useNews";
 import { useFavorites } from "../hooks/useFavorites";
 
 const Home = () => {
-  const { searchTerm } = useParams();
-
   const { articles, loading, page, totalPages, setPage, handleSearch } =
     useNews();
 
   const { favorites, handleFavorite } = useFavorites();
-
-  useEffect(() => {
-    if (searchTerm) {
-      handleSearch(searchTerm);
-    }
-  }, [searchTerm, handleSearch]);
 
   return (
     <Container sx={{ py: 4 }}>

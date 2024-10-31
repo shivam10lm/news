@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Paper,
   InputBase,
@@ -15,7 +14,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 
 const SearchBar = ({ onSearch }) => {
-  const navigate = useNavigate();
   const [query, setQuery] = useState("");
   const [searchHistory, setSearchHistory] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -42,7 +40,6 @@ const SearchBar = ({ onSearch }) => {
       onSearch(query.trim());
       updateSearchHistory(query.trim());
       setShowDropdown(false);
-      navigate(`/search/${query.trim()}`);
     }
   };
 
@@ -50,7 +47,6 @@ const SearchBar = ({ onSearch }) => {
     setQuery(item);
     onSearch(item);
     setShowDropdown(false);
-    navigate(`/search/${item}`);
   };
 
   const handleDelete = (e, itemToDelete) => {

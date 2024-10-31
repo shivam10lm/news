@@ -34,7 +34,12 @@ export const useNews = () => {
 
       const first12Articles = filteredArticles.slice(0, 12);
       setArticles(first12Articles);
-      setTotalPages(5);
+      const totalResults = response.data.totalResults;
+      const calculatedPages = Math.ceil(totalResults / 12);
+      setTotalPages(calculatedPages);
+      if (calculatedPages > 5) {
+        setTotalPages(5);
+      }
     } catch (err) {
       console.error("Error details:", err);
       setError("Failed to fetch news articles. Please try again later.");
