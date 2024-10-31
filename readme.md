@@ -135,15 +135,6 @@ DB_NAME=your_db_name
    npm start
    ```
 
-## 🔒 Security Features
-
-- CORS protection
-- Environment variable protection
-- SQL injection prevention
-- Error handling middleware
-- API rate limiting
-- Secure database connections
-
 ## 💡 Key Design Decisions
 
 1. **Component Separation**: Clear separation between presentational and container components
@@ -153,29 +144,6 @@ DB_NAME=your_db_name
 5. **API Structure**: RESTful API design with clear endpoint structure
 6. **Database Design**: Efficient schema design for favorites storage
 
-## 🔄 Future Improvements
-
-1. User authentication system
-2. Advanced filtering options
-3. Social sharing features
-4. Offline support with PWA
-5. News recommendations based on reading history
-6. Advanced analytics and user preferences
-7. Real-time news updates
-8. Multiple language support
-
-## 📈 Performance Considerations
-
-- Pagination for large data sets
-- Image optimization
-- Caching mechanisms
-- Efficient database queries
-- API response optimization
-- Load time optimization
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📝 License
 
