@@ -1,6 +1,6 @@
 # News Application
 
-A modern, full-stack news application that allows users to browse, search, and save their favorite news articles. Built with React, Node.js, Express, and MySQL.
+A modern, full-stack news application that allows users to browse, search, and save their favorite news articles. Built with React, Node.js, Express, and AWS RDS MySQL.
 
 ## 🚀 Features
 
@@ -14,6 +14,29 @@ A modern, full-stack news application that allows users to browse, search, and s
 - **Search History**: Track and quickly access recent searches
 
 ## 🏗️ Architecture
+
+The application follows the MVC (Model-View-Controller) architecture pattern:
+
+### Model
+
+- Database models for favorites
+- Data structure definitions
+- Business logic implementation
+- AWS RDS MySQL database integration
+
+### View
+
+- React components
+- Material-UI elements
+- Responsive layouts
+- User interface implementations
+
+### Controller
+
+- API route handlers
+- Request processing
+- Response formatting
+- Business logic coordination
 
 ### Frontend Architecture
 
@@ -59,7 +82,7 @@ A modern, full-stack news application that allows users to browse, search, and s
 
 #### Database
 
-- MySQL database for storing favorite articles
+- AWS RDS MySQL instance for high availability and scalability
 - Organized table structure for efficient data retrieval
 
 ## 🛠️ Technical Stack
@@ -76,7 +99,7 @@ A modern, full-stack news application that allows users to browse, search, and s
 
 - Node.js
 - Express.js
-- MySQL
+- AWS RDS MySQL
 - Swagger UI
 - Cors
 - Dotenv
@@ -98,7 +121,7 @@ A modern, full-stack news application that allows users to browse, search, and s
 ### Prerequisites
 
 - Node.js (v14 or higher)
-- MySQL
+- AWS RDS MySQL instance
 - News API Key
 
 ### Environment Variables
@@ -114,7 +137,7 @@ REACT_APP_API_URL=http://localhost:5001/api
 ```
 PORT=5001
 NEWS_API_KEY=your_news_api_key
-DB_HOST=localhost
+DB_HOST=your-aws-rds-endpoint
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
 DB_NAME=your_db_name
@@ -135,7 +158,7 @@ DB_NAME=your_db_name
    ```
 4. Set up the database:
 
-   - Create a MySQL database
+   - Create tables in your AWS RDS MySQL instance
    - The tables will be created automatically when the server starts
 
 5. Start the backend server:
@@ -151,14 +174,24 @@ DB_NAME=your_db_name
    npm start
    ```
 
+## 🔒 Security Features
+
+- CORS protection
+- Environment variable protection
+- SQL injection prevention
+- Error handling middleware
+- API rate limiting
+- Secure database connections
+
 ## 💡 Key Design Decisions
 
-1. **Component Separation**: Clear separation between presentational and container components
-2. **Custom Hooks**: Reusable logic extracted into custom hooks
-3. **Responsive Design**: Mobile-first approach with Material-UI
-4. **Error Handling**: Comprehensive error handling on both frontend and backend
-5. **API Structure**: RESTful API design with clear endpoint structure
-6. **Database Design**: Efficient schema design for favorites storage
+1. **MVC Architecture**: Clear separation of concerns between Model, View, and Controller
+2. **Component Separation**: Clear separation between presentational and container components
+3. **Custom Hooks**: Reusable logic extracted into custom hooks
+4. **Responsive Design**: Mobile-first approach with Material-UI
+5. **Error Handling**: Comprehensive error handling on both frontend and backend
+6. **API Structure**: RESTful API design with clear endpoint structure
+7. **Cloud Database**: AWS RDS for reliable and scalable data storage
 
 ## 📝 License
 
