@@ -1,4 +1,3 @@
-// swagger.js
 const swaggerJsdoc = require("swagger-jsdoc");
 
 const options = {
@@ -10,7 +9,6 @@ const options = {
       description: "Simple News Application API",
     },
     paths: {
-      // News Endpoints
       "/api/news/search": {
         get: {
           tags: ["News"],
@@ -31,7 +29,6 @@ const options = {
         },
       },
 
-      // Favorites Endpoints
       "/api/favorites": {
         get: {
           tags: ["Favorites"],
